@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+
+  <script>
+    // An array of strings containing directly connected destinations, separated by "-"
+    const roads = [
+      "Alice's House-Bob's House",
+      "Alice's House-Cabin",
+      "Alice's House-Post Office",
+      "Bob's House-Town Hall",
+      "Daria's House-Ernie's House",
+      "Daria's House-Town Hall",
+      "Ernie's House-Grete's House",
+      "Grete's House-Farm",
+      "Grete's House-Shop",
+      "Marketplace-Farm",
+      "Marketplace-Post Office",
+      "Marketplace-Shop",
+      "Marketplace-Town Hall",
+      "Shop-Town Hall",
+    ];
+
+    // A function for creating an improved data structure from "roads", by creating an object containing each location, with it's directly connected destinations stored as an array of strings.
+    function buildGraph(edges) {
+      // an empty object that will store routes
+      let graph = Object.create(null);
+
+      // function for creating the new data structure
+      function addEdge(from, to) {
+        // checks to see if graph has a property matching the parameter "from"
+        if (graph[from] == null) {
+          // if the parameter is null, then create it, and give it the value of the "to" parameter inside an array
+          graph[from] = [to];
+        } else {
+          // if the property is not null, push "to" in the the "from" value, which is an array.
+          graph[from].push(to);
+        }
+      }
+
+      // Each string in the array is turned into an array, by splitting what is in between the "-" character and creating a new array from those values.
+      // "From" represents the first string in the new array, "to" represent the second.
+      for (let [from, to] of edges.map((r) => r.split("-"))) {
+        // New direct routes are added to the graph object, 1 route for each direction.
+        addEdge(from, to);
+        addEdge(to, from);
+      }
+      return graph;
+    }
+
+    console.log(roads.map((r) => r.split("-")));
+    console.log(buildGraph(roads));
+  </script>
+</html>
